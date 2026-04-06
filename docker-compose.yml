@@ -1,0 +1,27 @@
+version: "3.12"
+
+services:
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    ports:
+      - "8000:8000"
+    env_file: .env
+    volumes:
+      - ./api:/app/api
+      - ./shared:/app/shared
+      - ./db:/app/db
+      - ./model:/app/model
+
+    pipeline:
+      build:
+        context: .
+        dockerfile: docker/pipeline.dockerfile
+      env_file: .env
+      volumes:
+        - ./pipeline:/app/pipline
+        - ./shared:/app/shared
+        - ./db:/app/db
+        - ./data:/app/data
