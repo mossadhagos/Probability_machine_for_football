@@ -1,0 +1,6 @@
+pandas
+psycopg[binary]
+pydantic
+pydantic-settings
+apscheduler
+httpx
