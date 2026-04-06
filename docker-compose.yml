@@ -1,4 +1,4 @@
-version: "3.12"
+#version: "3.12"
 
 services:
 
@@ -15,13 +15,13 @@ services:
       - ./db:/app/db
       - ./model:/app/model
 
-    pipeline:
-      build:
-        context: .
-        dockerfile: docker/pipeline.dockerfile
-      env_file: .env
-      volumes:
-        - ./pipeline:/app/pipline
-        - ./shared:/app/shared
-        - ./db:/app/db
-        - ./data:/app/data
+  pipeline:
+    build:
+      context: .
+      dockerfile: docker/pipeline.Dockerfile
+    env_file: .env
+    volumes:
+      - ./pipeline:/app/pipeline
+      - ./shared:/app/shared
+      - ./db:/app/db
+      - ./data:/app/data
