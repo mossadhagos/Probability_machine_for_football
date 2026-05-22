@@ -8,7 +8,8 @@ ROOT = Path(__file__).resolve().parents[1]
 files = list((ROOT / "data").glob("*.csv"))
 print(f"Found {len(files)} files")
 
-
+def dates():
+    df["date"] = pd.to_datetime(df["date"])
 for f in files:
     df = pd.read_csv(f)
     dates = pd.to_datetime(df["Date"], format="%Y %m %d", errors="coerce")

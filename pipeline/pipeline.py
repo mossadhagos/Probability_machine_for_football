@@ -1,3 +1,4 @@
+import datetime
 from pathlib import Path
 import pandas as pd
 
@@ -26,6 +27,13 @@ all_data = pd.concat(frames, ignore_index=True)
 print(f"Total rows: {len(all_data)}")
 print(f"Columns: {all_data.shape[1]}")
 print(all_data["source_file"].value_counts().head())
+
+def validate_date(date):
+    try:
+        datetime.datetime.strptime(date, "%Y %m %d")
+        return True
+    except ValueError:
+        return False
 
 
 
