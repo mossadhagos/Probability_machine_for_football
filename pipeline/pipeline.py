@@ -1,7 +1,8 @@
 import datetime
+import sqlite3 as pl
 from pathlib import Path
 import pandas as pd
-
+import psycopg2
 
 ROOT = Path ("lillmossi/Documents/github/Probability_model_for_football")
 
@@ -28,12 +29,20 @@ print(f"Total rows: {len(all_data)}")
 print(f"Columns: {all_data.shape[1]}")
 print(all_data["source_file"].value_counts().head())
 
-def validate_date(date):
+#### connection to supabase data base
+conn = psycopg2.connect(
+    host="db.ajhirbjxovrabofnbpgl.supabase.co",
+    port=5432,
+    db="postgresql+psycopg://postgres:[Lillmossi12?]@db.ajhirbjxovrabofnbpgl.supabase.co:5432/postgres",
+    user="postgres",
+    password="",
+)
+query = """""SELECT * FROM web_logs WHERE timestamp >= NOW() - INTERVAL '24 hours'"""""
+df_logs = pl.read_database(query=query, connection=conn)
+
+conn.close()
+
+print(df_logs.shape)
+
+def valdate(df):
     try:
-        datetime.datetime.strptime(date, "%Y %m %d")
-        return True
-    except ValueError:
-        return False
-
-
-
