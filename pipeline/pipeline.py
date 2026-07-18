@@ -44,5 +44,4 @@ conn.close()
 
 print(df_logs.shape)
 
-def valdate(df):
-    try:
+
