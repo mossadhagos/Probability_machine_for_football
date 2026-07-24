@@ -3,6 +3,7 @@ import sqlite3 as pl
 from pathlib import Path
 import pandas as pd
 import psycopg2
+import numpy as np
 
 ROOT = Path ("lillmossi/Documents/github/Probability_model_for_football")
 
@@ -44,5 +45,29 @@ conn.close()
 
 print(df_logs.shape)
 
-def valdate(df):
-    try:
+#### small validation of the matches
+def validate(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+    df = df.copy()
+
+    valid_goals = (
+        df['home_goals'].notna() and (df['home_goals'] >= 0) and
+        df['away_goals'].notna() and (df['away_goals'] >= 0)
+    )
+    valid_teams = df['home_team'].notna() and df['away_team'].notna()
+
+    reasonable_goals = (df['home_goals'] < 20) and (df['away_goals'] < 20)
+
+    is_valid = valid_goals & valid_teams & reasonable_goals
+
+    valid_df = df[is_valid]
+    invalid_df = df[~is_valid]
+
+    if len(invalid_df) > 0:
+        print(f"Validation Warning: {len(invalid_df)} rows failed validation and were contained")
+
+        print(invalid_df[['source_files', 'home_team', 'away_team', 'home_goals', 'away_goals']].head())
+    else:
+        print("all row passed validation")
+
+    return valid_df, invalid_df
+
